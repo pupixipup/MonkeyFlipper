@@ -435,11 +435,11 @@ position = Vector2(44, -23)
 position = Vector2(44, -88)
 
 [node name="Platform2" parent="." instance=ExtResource("3_bdvlt")]
-position = Vector2(0, -45)
+position = Vector2(0, -49)
 rotation = 1.57079
 
 [node name="Platform3" parent="." instance=ExtResource("3_bdvlt")]
-position = Vector2(0, -114)
+position = Vector2(0, -140)
 rotation = 1.57079
 
 [connection signal="body_entered" from="Ground" to="Ground" method="_on_body_entered"]
