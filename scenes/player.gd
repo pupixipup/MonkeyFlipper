@@ -36,10 +36,11 @@ func _physics_process(delta):
 			if is_on_floor():
 				animated_sprite.play("move")
 				jumps_left = MAX_JUMPS
+				velocity.x = jumpDirection * SPEED
 
 			else:
 				animated_sprite.play("jump")
-			velocity.x = jumpDirection * SPEED
+			
 			# set visual direction
 			if direction == -1:
 				animated_sprite.flip_h = true
@@ -63,7 +64,7 @@ func _physics_process(delta):
 				if is_on_floor() == false:
 					jumpDirection = jumpDirection * -1
 					direction = direction  * -1
-				
+
 				animated_sprite.play("jump")
 				var lookRight = jumpDirection == 1
 	
