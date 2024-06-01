@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 
 const SPEED = 100.0
-const JUMP_VELOCITY = -270.0
+const JUMP_VELOCITY = -200.0
+
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var raycast = $RayCast2D
 var onWall = false
@@ -11,10 +12,9 @@ const RAY_RIGHT = Vector2(6,0)
 const RAY_LEFT = Vector2(-7,0)
 const MAX_JUMPS = 2
 var jumps_left = MAX_JUMPS
-# Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var direction = 1 # Move right by default.  Input.get_axis("move_left", "move_right")
-var previousDirection = null
+var direction = 1 # Move right by default.  it is used to be: Input.get_axis("move_left", "move_right")
+var jump_delta = 0
 
 func _physics_process(delta):
 
@@ -57,9 +57,9 @@ func _physics_process(delta):
 		#	velocity.x = move_toward(velocity.x, 0, SPEED)
 			
 			
+
 	if Input.is_action_just_pressed("ui_accept"):
-
-
+			jump_delta = 0
 			if jumps_left > 0:
 				if is_on_floor() == false:
 					jumpDirection = jumpDirection * -1
@@ -70,14 +70,19 @@ func _physics_process(delta):
 	
 				velocity.x = jumpDirection * SPEED
  
-				velocity.y = JUMP_VELOCITY
-				velocity.y += gravity * delta
 				animated_sprite.flip_h = !lookRight
 				raycast.target_position = RAY_RIGHT if lookRight  else RAY_LEFT
-			
-		
-
-			jumps_left -= 1
+				
+				
+	if Input.is_action_pressed("ui_accept") and jumps_left > 0:
+		# Add jump height when button is held
+		if jump_delta < 0.1:
+			velocity.y = JUMP_VELOCITY - jump_delta
+			velocity.y += gravity * delta
+			jump_delta += delta
+	if Input.is_action_just_released("ui_accept"):
+		jumps_left -= 1
+		print(jumps_left)
 
 	move_and_slide()
 	
