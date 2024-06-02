@@ -1,9 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjmy8cxwsliaq"]
+[gd_scene load_steps=12 format=3 uid="uid://cjmy8cxwsliaq"]
 
 [ext_resource type="PackedScene" uid="uid://oa8dmcyny68u" path="res://scenes/player.tscn" id="1_e0mev"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_vswsa"]
 [ext_resource type="Script" path="res://scenes/OOB.gd" id="2_60454"]
 [ext_resource type="Texture2D" uid="uid://svgw8quoauot" path="res://assets/sprites/world_tileset.png" id="2_qdrh7"]
 [ext_resource type="PackedScene" uid="uid://b4mvumifqolqh" path="res://scenes/platform.tscn" id="3_bdvlt"]
+
+[sub_resource type="GDScript" id="GDScript_6liap"]
+script/source = "extends Camera2D
+
+func _ready():
+	if OS.get_name() == \"Windows\":
+		self.zoom = Vector2(5, 5)
+"
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnix3"]
 distance = -19.0
@@ -397,7 +406,24 @@ texture = ExtResource("2_qdrh7")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_l46qk")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bg0eu"]
+
+[sub_resource type="GDScript" id="GDScript_hkw0h"]
+script/source = "extends TouchScreenButton
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+	
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_vswsa")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -79.0
@@ -412,7 +438,8 @@ position = Vector2(-68, 1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, 5)
-zoom = Vector2(5, 5)
+zoom = Vector2(10, 10)
+script = SubResource("GDScript_6liap")
 
 [node name="Ground" type="Area2D" parent="."]
 position = Vector2(0, 92)
@@ -441,5 +468,15 @@ rotation = 1.57079
 [node name="Platform3" parent="." instance=ExtResource("3_bdvlt")]
 position = Vector2(0, -114)
 rotation = 1.57079
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2(177, 28)
+scale = Vector2(100, 100)
+shape = SubResource("RectangleShape2D_bg0eu")
+action = "ui_accept"
+visibility_mode = 1
+script = SubResource("GDScript_hkw0h")
 
 [connection signal="body_entered" from="Ground" to="Ground" method="_on_body_entered"]

@@ -55,8 +55,6 @@ func _physics_process(delta):
 		#	animated_sprite.play("idle")
 		#	jumps_left = MAX_JUMPS
 		#	velocity.x = move_toward(velocity.x, 0, SPEED)
-			
-			
 
 	if Input.is_action_just_pressed("ui_accept"):
 			jump_delta = 0
@@ -82,7 +80,6 @@ func _physics_process(delta):
 			jump_delta += delta
 	if Input.is_action_just_released("ui_accept"):
 		jumps_left -= 1
-		print(jumps_left)
 
 	move_and_slide()
 	
