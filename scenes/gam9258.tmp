@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://cjmy8cxwsliaq"]
 
 [ext_resource type="PackedScene" uid="uid://oa8dmcyny68u" path="res://scenes/player.tscn" id="1_e0mev"]
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_vswsa"]
-[ext_resource type="Script" path="res://scripts/OOB.gd" id="2_60454"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_vswsa"]
+[ext_resource type="Script" path="res://scenes/OOB.gd" id="2_60454"]
 [ext_resource type="Texture2D" uid="uid://svgw8quoauot" path="res://assets/sprites/world_tileset.png" id="2_qdrh7"]
 [ext_resource type="PackedScene" uid="uid://cw4e1mmf78yl5" path="res://scenes/LevelManager.tscn" id="6_vcjen"]
-[ext_resource type="Script" path="res://scripts/LevelManager.gd" id="7_mhbtj"]
+[ext_resource type="Script" path="res://scenes/LevelManager.gd" id="7_mhbtj"]
 
 [sub_resource type="GDScript" id="GDScript_6liap"]
 script/source = "extends Camera2D
