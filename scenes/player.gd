@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 100.0
-const JUMP_VELOCITY = -200.0
+const SPEED = 100.0 # Moving speed
+const JUMP_VELOCITY = -250.0
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var raycast = $RayCast2D
@@ -11,6 +11,7 @@ var jumpDirection = 1
 const RAY_RIGHT = Vector2(6,0)
 const RAY_LEFT = Vector2(-7,0)
 const MAX_JUMPS = 2
+var MAX_JUMP_TIME = 0.07
 var jumps_left = MAX_JUMPS
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = 1 # Move right by default.  it is used to be: Input.get_axis("move_left", "move_right")
@@ -50,12 +51,6 @@ func _physics_process(delta):
 				animated_sprite.flip_h = false
 				raycast.target_position = RAY_RIGHT
 
-		# Idle
-		#elif is_on_floor():
-		#	animated_sprite.play("idle")
-		#	jumps_left = MAX_JUMPS
-		#	velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	if Input.is_action_just_pressed("ui_accept"):
 			jump_delta = 0
 			if jumps_left > 0:
@@ -74,7 +69,7 @@ func _physics_process(delta):
 				
 	if Input.is_action_pressed("ui_accept") and jumps_left > 0:
 		# Add jump height when button is held
-		if jump_delta < 0.1:
+		if jump_delta < MAX_JUMP_TIME:
 			velocity.y = JUMP_VELOCITY - jump_delta
 			velocity.y += gravity * delta
 			jump_delta += delta
