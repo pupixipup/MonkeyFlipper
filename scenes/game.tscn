@@ -467,7 +467,7 @@ visibility_mode = 1
 script = SubResource("GDScript_hkw0h")
 
 [node name="LevelManager" parent="." instance=ExtResource("6_vcjen")]
-position = Vector2(22, -36)
+position = Vector2(0, -26)
 script = ExtResource("7_mhbtj")
 
 [connection signal="body_entered" from="Ground" to="Ground" method="_on_body_entered"]

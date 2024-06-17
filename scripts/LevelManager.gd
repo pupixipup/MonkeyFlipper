@@ -4,6 +4,7 @@ extends Node
 # TODO: Create different sections
 var platform_scene = preload("res://scenes/platform.tscn")
 var trigger_area_scene = load("res://scenes/trigger_area.tscn")
+var basic_section = preload("res://scenes/platform_sections/basic/basic.tscn")
 
 var trigger_area = null;
 var platform_height = 32
@@ -27,6 +28,7 @@ func _ready():
 	trigger_area.body_entered.connect(_on_Area2D_body_entered)
 	add_child(trigger_area)
 	
+	
 	add_section()
 	
 	pass # Replace with function body.
@@ -37,33 +39,13 @@ func _process(delta):
 	pass
 
 func add_section():
-	var sectionFunc = get_section()
-	var section = sectionFunc.call()
-	placed_sections.append(section)
-	current_y -= platforms_gap_y
-
-
-
-func basic_section():
-	var new_section = Node2D.new()
-	var platform = platform_scene.instantiate()
-	var platform2 = platform_scene.instantiate()
+	var section = get_section()
+	var section_instance = section.instantiate()
+	add_child(section_instance)
+	placed_sections.append(section_instance)
 	
-	var y_distance = platforms_gap_y + platform_height
-	platform2.rotation += PI
-	platform.position.x = platforms_gap_x
-	platform2.position.y = -y_distance	
-	new_section.add_child(platform)
-	new_section.add_child(platform2)
-	
-	new_section.position.y = current_y
-
-	current_y -= y_distance
-	current_y -= platform_height
-	
-	add_child(new_section)
-	return new_section
-	
+	section_instance.position.y -= current_y
+	current_y += section_instance.height
 
 var sections = [basic_section]
 
@@ -72,8 +54,10 @@ func get_section():
 	# TODO: As height raises, increase difficulty
 	
 func _on_Area2D_body_entered(body):
-	print("collide")
 	add_section()
-	trigger_area.position.y = current_y
+	trigger_area.position.y = -current_y
 	add_section()
+	if (len(placed_sections) > 3):
+		placed_sections[0].queue_free()
+		placed_sections.remove_at(0)
 	
