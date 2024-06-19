@@ -5,6 +5,7 @@ extends Node
 var platform_scene = preload("res://scenes/platform.tscn")
 var trigger_area_scene = load("res://scenes/trigger_area.tscn")
 var basic_section = preload("res://scenes/platform_sections/basic/basic.tscn")
+var straight_section = preload("res://scenes/platform_sections/straight/straight.tscn")
 
 var trigger_area = null;
 var platform_height = 32
@@ -47,10 +48,10 @@ func add_section():
 	section_instance.position.y -= current_y
 	current_y += section_instance.height
 
-var sections = [basic_section]
+var sections = [basic_section, straight_section]
 
 func get_section():
-	return sections[0]
+	return sections.pick_random()
 	# TODO: As height raises, increase difficulty
 	
 func _on_Area2D_body_entered(body):
